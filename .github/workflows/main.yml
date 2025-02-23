@@ -16,6 +16,9 @@ jobs:
       - name: Install Unzip
         run: sudo apt-get install unzip
 
+      - name: List Files for Debugging
+        run: ls -la
+
       - name: Unzip VCamera
         run: unzip VCamera-main.zip -d vcamera-source
 
@@ -33,9 +36,11 @@ jobs:
       - name: Publish Output
         run: cd vcamera-source && dotnet publish --configuration Release --output ../build-output
 
+      - name: List Output for Debugging
+        run: ls -la build-output
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
-
         with:
           name: vcamera-build
-          path: build-output
+          path: ./build-output/**
