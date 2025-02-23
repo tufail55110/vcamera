@@ -1,0 +1,40 @@
+name: Build VCamera
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Unzip
+        run: sudo apt-get install unzip
+
+      - name: Unzip VCamera
+        run: unzip VCamera.zip -d vcamera-source
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Dependencies
+        run: cd vcamera-source && dotnet restore
+
+      - name: Build Project
+        run: cd vcamera-source && dotnet build --configuration Release
+
+      - name: Publish Output
+        run: cd vcamera-source && dotnet publish --configuration Release --output ../build-output
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: vcamera-build
+          path: build-output
