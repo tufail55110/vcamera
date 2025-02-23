@@ -16,9 +16,6 @@ jobs:
       - name: Install Unzip
         run: sudo apt-get install unzip
 
-      - name: List Files for Debugging
-        run: ls -la
-
       - name: Unzip VCamera
         run: unzip VCamera-main.zip -d vcamera-source
 
@@ -28,19 +25,16 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore Dependencies
-        run: cd vcamera-source && dotnet restore
+        run: cd vcamera-source/VCamera-main && dotnet restore
 
       - name: Build Project
-        run: cd vcamera-source && dotnet build --configuration Release
+        run: cd vcamera-source/VCamera-main && dotnet build --configuration Release
 
       - name: Publish Output
-        run: cd vcamera-source && dotnet publish --configuration Release --output ../build-output
-
-      - name: List Output for Debugging
-        run: ls -la build-output
+        run: cd vcamera-source/VCamera-main && dotnet publish --configuration Release --output ../../../build-output
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: vcamera-build
-          path: ./build-output/**
+          path: build-output
