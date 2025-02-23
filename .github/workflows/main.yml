@@ -17,7 +17,7 @@ jobs:
         run: sudo apt-get install unzip
 
       - name: Unzip VCamera
-        run: unzip VCamera.zip -d vcamera-source
+        run: unzip VCamera-main.zip -d vcamera-source
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
